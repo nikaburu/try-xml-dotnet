@@ -1,24 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<questions>  
-  <openedQuestion identity="0001">
+<questions>
+  <question identity="0001">
     <text>Answer the question: Hello ...</text>
     <variants>
       <variant>you</variant>
       <variant answer="yes">world!</variant>
       <variant>gringo.</variant>
     </variants>
-  </openedQuestion>
+  </question>
 
-  <openedQuestion identity="0002">
-    <text>Answer the question: Hello ...</text>
-    <variants>
-      <variant>you</variant>
-      <variant answer="yes">world!</variant>
-      <variant>gringo.</variant>
-    </variants>
-  </openedQuestion>
-  
-  <closedQuestion identity="0003">
+  <question identity="0002">
     <text>Answer the question: Hello ...</text>
     <keywords>
       <keyword>
@@ -31,44 +22,5 @@
         Jack
       </keyword>
     </keywords>
-  </closedQuestion>
-
-  <openedQuestion identity="0004">
-    <text>Answer the question: Hello ...</text>
-    <variants>
-      <variant>you</variant>
-      <variant answer="yes">world!</variant>
-      <variant>gringo.</variant>
-    </variants>
-  </openedQuestion>
-  
-  <closedQuestion identity="0005">
-    <text>Answer the question: Hello ...</text>
-    <keywords>
-      <keyword>
-        world
-      </keyword>
-      <keyword>
-        old
-      </keyword>
-      <keyword>
-        Jack
-      </keyword>
-    </keywords>
-  </closedQuestion>
-
-  <closedQuestion identity="0006">
-    <text>Answer the question: Hello ...</text>
-    <keywords>
-      <keyword>
-        world
-      </keyword>
-      <keyword>
-        old
-      </keyword>
-      <keyword>
-        Jack
-      </keyword>
-    </keywords>
-  </closedQuestion>
+  </question>
 </questions>

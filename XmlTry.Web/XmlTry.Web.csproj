@@ -14,6 +14,7 @@
     <AssemblyName>XmlTry.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,7 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Copy of data.xml" />
-    <Content Include="App_Data\data.xml" />
+    <Content Include="App_Data\data.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\data.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\jquery-ui.css" />

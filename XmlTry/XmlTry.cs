@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.XPath;
+using System.Xml.Xsl;
 
 namespace XmlTry
 {
@@ -14,7 +16,7 @@ namespace XmlTry
         public XDocument TryXdocument(string path)
         {
             XDocument document = XDocument.Load(path);
-            Console.WriteLine(document.ToString());
+            Console.WriteLine(document.Descendants().First().ToString());
 
             //document.Save(@"E:\questions.xml");
             return document;
@@ -22,6 +24,7 @@ namespace XmlTry
 
         public List<string> TryXmlScheme(string path, XDocument document)
         {
+            //http://msdn.microsoft.com/ru-ru/library/ms256235.aspx
             XmlSchemaSet schemas = new XmlSchemaSet();
             schemas.Add(null, path);
 
@@ -90,7 +93,7 @@ namespace XmlTry
         {
             using (XmlReader reader = XmlReader.Create(path))
             {
-                while (reader.Read() && reader.Name != "closedQuestion") { }
+                while (reader.Read() && reader.Name != "question") { }
 
                 using (XmlReader subTreeReader = reader.ReadSubtree())
                 {
@@ -104,7 +107,8 @@ namespace XmlTry
         {
             XPathDocument document = new XPathDocument(path);
             XPathNavigator navigator = document.CreateNavigator();
-            XPathExpression expression = XPathExpression.Compile("questions/openedQuestion");
+            //http://www.w3schools.com/xpath/xpath_syntax.asp
+            XPathExpression expression = XPathExpression.Compile("questions/question[@identity='0002']");
 
             foreach (XPathNavigator question in navigator.Select(expression))
             {
@@ -113,6 +117,18 @@ namespace XmlTry
                     XDocument fakeDoc = XDocument.Load(subTreeReader);
                     Console.WriteLine(fakeDoc.ToString());
                 }
+            }
+        }
+
+        public void TryXslTransformation(string path, string pathToStyleSheet)
+        {
+            XslCompiledTransform transform = new XslCompiledTransform();
+            transform.Load(pathToStyleSheet);
+
+            using (var sw = new StringWriter())
+            {
+                transform.Transform(path, new XmlTextWriter(sw));
+                Console.WriteLine(sw.ToString());
             }
         }
     }

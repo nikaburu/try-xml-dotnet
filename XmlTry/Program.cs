@@ -1,28 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Schema;
 
 namespace XmlTry
 {
-    class Program
+    internal class Program
     {
-        const string Path = @"E:\Ddisk\Else\CSh\Projects\Console\XmlTry\XmlTry.Web\App_Data\";
+        //const string Path = @"E:\Ddisk\Else\CSh\Projects\Console\XmlTry\XmlTry.Web\App_Data\";
+        static string _path = @"D:\WORK\Projects\MyProjects\Training projs\XmlTry\XmlTry.Web\App_Data\";
 
-        static void Main()
+        static void Main(string[] args)
         {
+            if (args.Length > 0) _path = args[0];
+
             XmlTry xmlTry = new XmlTry();
             
             Console.WriteLine("TryXdocument: ");
-            var doc = xmlTry.TryXdocument(Path + "data.xml");
+            var doc = xmlTry.TryXdocument(_path + "data.xml");
             Console.WriteLine();
 
             Console.WriteLine("TryXmlScheme: ");
-            var errors = xmlTry.TryXmlScheme(Path + "data.xsd", doc);
+            var errors = xmlTry.TryXmlScheme(_path + "data.xsd", doc);
             if (errors.Count > 0 )
             {
                 errors.ForEach(Console.WriteLine);
@@ -34,15 +30,19 @@ namespace XmlTry
             Console.WriteLine();
 
             Console.WriteLine("TryXmlReader: ");
-            xmlTry.TryXmlReader(Path + "data.xml");
+            xmlTry.TryXmlReader(_path + "data.xml");
             Console.WriteLine();
 
             Console.WriteLine("TryXmlReaderSubTree: ");
-            xmlTry.TryXmlReaderSubTree(Path + "data.xml");
+            xmlTry.TryXmlReaderSubTree(_path + "data.xml");
             Console.WriteLine();
 
             Console.WriteLine("TryXpathDocument: ");
-            xmlTry.TryXpathDocument(Path + "data.xml");
+            xmlTry.TryXpathDocument(_path + "data.xml");
+            Console.WriteLine();
+
+            Console.WriteLine("TryXslTransformation: ");
+            xmlTry.TryXslTransformation(_path + "data.xml", _path + "data.xslt");
             Console.WriteLine();
         }
     }
