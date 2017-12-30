@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,20 +11,20 @@ using static System.Console;
 
 namespace Try.Xml.Console
 {
-	public class XmlTry
+	public class XmlSamples
 	{
-		public XDocument TryXdocument(string path)
+		public XDocument Xdocument(string path)
 		{
 			var document = XDocument.Load(path);
 			WriteLine(document.Descendants().First().ToString());
 
-			//document.Save(@"E:\questions.xml");
+			//document.Save(@"...");
 			return document;
 		}
 
-		public List<string> TryXmlScheme(string path, XDocument document)
+		public List<string> XmlScheme(string path, XDocument document)
 		{
-			//http://msdn.microsoft.com/ru-ru/library/ms256235.aspx
+			//http://msdn.microsoft.com/en-gb/library/ms256235.aspx
 			var schemas = new XmlSchemaSet();
 			schemas.Add(null, path);
 
@@ -35,9 +34,9 @@ namespace Try.Xml.Console
 			return errors;
 		}
 
-		public void TryXmlReader(string path)
+		public void XmlReader(string path)
 		{
-			Func<XmlReader, string> readAttributes = reader =>
+			string ReadAttributes(XmlReader reader)
 			{
 				var attributes = new StringBuilder(reader.AttributeCount);
 				if (reader.MoveToFirstAttribute())
@@ -49,15 +48,17 @@ namespace Try.Xml.Console
 				attributes.Replace(" ", "", attributes.Length - 1, 1);
 
 				return attributes.ToString();
+			}
+
+			var settings = new XmlReaderSettings
+			{
+				IgnoreComments = true,
+				DtdProcessing = DtdProcessing.Ignore,
+				ConformanceLevel = ConformanceLevel.Document,
+				IgnoreWhitespace = true
 			};
 
-			var settings = new XmlReaderSettings();
-			settings.IgnoreComments = true;
-			settings.DtdProcessing = DtdProcessing.Ignore;
-			settings.ConformanceLevel = ConformanceLevel.Document;
-			settings.IgnoreWhitespace = true;
-
-			using (var reader = XmlReader.Create(path, settings))
+			using (var reader = System.Xml.XmlReader.Create(path, settings))
 			{
 				while (reader.Read())
 				{
@@ -67,12 +68,12 @@ namespace Try.Xml.Console
 					{
 						case XmlNodeType.XmlDeclaration:
 							WriteLine(reader.HasAttributes
-								? string.Format("<?{0} {1}?>", reader.Name, readAttributes(reader))
+								? string.Format("<?{0} {1}?>", reader.Name, ReadAttributes(reader))
 								: string.Format("<?{0} ?>", reader.Name));
 							break;
 						case XmlNodeType.Element:
 							WriteLine(reader.HasAttributes
-								? string.Format("<{0} {1}>", reader.Name, readAttributes(reader))
+								? string.Format("<{0} {1}>", reader.Name, ReadAttributes(reader))
 								: string.Format("<{0}>", reader.Name));
 							break;
 						case XmlNodeType.Text:
@@ -89,9 +90,9 @@ namespace Try.Xml.Console
 			}
 		}
 
-		public void TryXmlReaderSubTree(string path)
+		public void XmlReaderSubTree(string path)
 		{
-			using (var reader = XmlReader.Create(path))
+			using (var reader = System.Xml.XmlReader.Create(path))
 			{
 				while (reader.Read() && reader.Name != "question")
 				{
@@ -105,11 +106,10 @@ namespace Try.Xml.Console
 			}
 		}
 
-		public void TryXpathDocument(string path)
+		public void XpathDocument(string path)
 		{
 			var document = new XPathDocument(path);
 			var navigator = document.CreateNavigator();
-			//http://www.w3schools.com/xpath/xpath_syntax.asp
 			var expression = XPathExpression.Compile("questions/question[@identity='0002']");
 
 			foreach (XPathNavigator question in navigator.Select(expression))
@@ -120,7 +120,7 @@ namespace Try.Xml.Console
 				}
 		}
 
-		public void TryXslTransformation(string path, string pathToStyleSheet)
+		public void XslTransformation(string path, string pathToStyleSheet)
 		{
 			var transform = new XslCompiledTransform();
 			transform.Load(pathToStyleSheet);

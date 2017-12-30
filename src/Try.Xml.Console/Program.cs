@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using static System.Console;
 
 namespace Try.Xml.Console
@@ -7,40 +8,40 @@ namespace Try.Xml.Console
 	{
 		private static void Main(string[] args)
 		{
-			var dataFolder = @"\Data";
+			var dataFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data");
 			if (args.Length > 0) dataFolder = args[0];
 
 			var pathToXml = Path.Combine(dataFolder, "data.xml");
 
-			var xmlTry = new XmlTry();
+			var xmlSamples = new XmlSamples();
 
-			WriteLine("Try Xdocument: ");
-			var doc = xmlTry.TryXdocument(pathToXml);
+			WriteLine("Xdocument: ");
+			var doc = xmlSamples.Xdocument(pathToXml);
 			WriteLine();
 
-			WriteLine("Try XmlScheme: ");
-			var errors = xmlTry.TryXmlScheme(Path.Combine(dataFolder, "data.xsd"), doc);
+			WriteLine("XmlScheme: ");
+			var errors = xmlSamples.XmlScheme(Path.Combine(dataFolder, "data.xsd"), doc);
 			if (errors.Count > 0)
 				errors.ForEach(WriteLine);
 			else
-				WriteLine("Verified successfuly.");
+				WriteLine("Verified successfully.");
 
 			WriteLine();
 
-			WriteLine("Try XmlReader: ");
-			xmlTry.TryXmlReader(pathToXml);
+			WriteLine("XmlReader: ");
+			xmlSamples.XmlReader(pathToXml);
 			WriteLine();
 
-			WriteLine("Try XmlReaderSubTree: ");
-			xmlTry.TryXmlReaderSubTree(pathToXml);
+			WriteLine("XmlReaderSubTree: ");
+			xmlSamples.XmlReaderSubTree(pathToXml);
 			WriteLine();
 
-			WriteLine("Try XpathDocument: ");
-			xmlTry.TryXpathDocument(pathToXml);
+			WriteLine("XpathDocument: ");
+			xmlSamples.XpathDocument(pathToXml);
 			WriteLine();
 
-			WriteLine("Try XslTransformation: ");
-			xmlTry.TryXslTransformation(pathToXml, Path.Combine(dataFolder, "data.xslt"));
+			WriteLine("XslTransformation: ");
+			xmlSamples.XslTransformation(pathToXml, Path.Combine(dataFolder, "data.xslt"));
 			WriteLine();
 		}
 	}
