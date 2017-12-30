@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:annotation>
+		<xs:appinfo>Questions scheme</xs:appinfo>
+		<xs:documentation xml:lang="en">
+			Scheme define xml-types for questions.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:group name="openedQuestionGroup">
+		<xs:sequence>
+			<xs:element name="variants">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="2" maxOccurs="unbounded" name="variant">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="answer" type="xs:string" use="optional" fixed="yes" />
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="closedQuestionGroup">
+		<xs:sequence>
+			<xs:element name="keywords">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="keyword" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="questionType">
+		<xs:sequence>
+			<xs:element name="text" type="xs:string" nillable="false" />
+			<xs:choice>
+				<xs:group ref="openedQuestionGroup" />
+				<xs:group ref="closedQuestionGroup" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="identity" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:element name="questions">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="question" type="questionType" />
+			</xs:choice>
+		</xs:complexType>
+		<xs:key name="identityKey">
+			<xs:selector xpath="question" />
+			<xs:field xpath="@identity" />
+		</xs:key>
+	</xs:element>
+</xs:schema>
